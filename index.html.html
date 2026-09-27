@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calcul Vectoriel - 2ème Sciences | Fiche Synthèse Interactive</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- KaTeX for crisp LaTeX formulas -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" 
+          onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef6ff',
+              100: '#d9ebff',
+              500: '#2563eb',
+              600: '#1d4ed8',
+              700: '#1e40af',
+              900: '#1e3a8a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white !important; color: black !important; }
+      .page-break { page-break-before: always; }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col font-sans transition-colors duration-200">
+
+  <!-- Header / Navigation Bar -->
+  <header class="sticky top-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur border-b border-slate-200 dark:border-slate-800 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
+          <i data-lucide="compass" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <span class="font-bold text-lg leading-none tracking-tight block">Calcul Vectoriel</span>
+          <span class="text-xs text-blue-600 dark:text-blue-400 font-medium tracking-wide">2ème Sciences — Programme Tunisien</span>
+        </div>
+      </div>
+
+      <nav class="hidden md:flex space-x-1 lg:space-x-4 text-sm font-medium">
+        <a href="#cours" class="px-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition">Cours & Théorèmes</a>
+        <a href="#tableau" class="px-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition">Formulaire</a>
+        <a href="#calculateur" class="px-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition">Simulateur & Graphe</a>
+        <a href="#auto-eval" class="px-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition">Quiz Flash</a>
+      </nav>
+
+      <div class="flex items-center space-x-2">
+        <button onclick="window.print()" title="Imprimer la fiche" class="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          <i data-lucide="printer" class="w-5 h-5"></i>
+        </button>
+        <button id="themeToggle" title="Changer de thème" class="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          <i data-lucide="moon" id="themeIcon" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+    <!-- Hero / Meta Banner -->
+    <section class="bg-gradient-to-r from-blue-700 via-indigo-700 to-blue-900 rounded-3xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden">
+      <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none">
+        <i data-lucide="move" class="w-80 h-80"></i>
+      </div>
+      <div class="max-w-3xl relative z-10 space-y-4">
+        <div class="inline-flex items-center space-x-2 bg-blue-500/30 border border-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
+          <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+          <span>Fiche Synthèse Officielle</span>
+        </div>
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">Géométrie Vectorielle & Analytique</h1>
+        <p class="text-blue-100 text-sm sm:text-base leading-relaxed">
+          Synthèse complète du cours : bipoint, Chasles, bases, coordonnées cartésiennes, déterminant de colinéarité et condition d'orthogonalité.
+        </p>
+        <div class="flex flex-wrap gap-4 pt-2 text-xs sm:text-sm text-blue-200">
+          <span class="flex items-center gap-1.5"><i data-lucide="user" class="w-4 h-4"></i> Prof. Grichi Borhen</span>
+          <span class="flex items-center gap-1.5"><i data-lucide="graduation-cap" class="w-4 h-4"></i> 2ème Année Sciences</span>
+          <span class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i> R.O.N & Analytique</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 1, 2, 3: Théorie Fondamentale -->
+    <section id="cours" class="space-y-6">
+      <div class="flex items-center justify-between border-b pb-3 border-slate-200 dark:border-slate-800">
+        <div class="flex items-center space-x-3">
+          <span class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-sm">1-3</span>
+          <h2 class="text-2xl font-bold tracking-tight">Fondements Vectoriels</h2>
+        </div>
+        <span class="text-xs font-medium px-2.5 py-1 bg-slate-200 dark:bg-slate-800 rounded-md">Vecteurs & Propriétés</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Card 1: Définition & Égalité -->
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200/80 dark:border-slate-700/80 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Section 1</span>
+              <span class="p-1.5 bg-blue-50 dark:bg-blue-900/40 rounded-lg text-blue-600 dark:text-blue-300"><i data-lucide="arrow-up-right" class="w-4 h-4"></i></span>
+            </div>
+            <h3 class="text-lg font-bold">Vecteur & Bipoint</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300">
+              Un vecteur non nul $\vec{u} = \vec{AB}$ est caractérisé par un triplet inséparable :
+            </p>
+            <ul class="text-xs space-y-2 text-slate-700 dark:text-slate-200">
+              <li class="flex items-start gap-2">
+                <span class="text-blue-500 font-semibold">•</span>
+                <span><strong>Direction :</strong> la droite support $(AB)$ ou toute parallèle.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-blue-500 font-semibold">•</span>
+                <span><strong>Sens :</strong> de l'origine $A$ vers l'extrémité $B$.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-blue-500 font-semibold">•</span>
+                <span><strong>Norme :</strong> longueur du segment, notée $\|\vec{AB}\| = AB \ge 0$.</span>
+              </li>
+            </ul>
+            <div class="p-3 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 rounded-xl text-xs space-y-1">
+              <strong class="text-amber-800 dark:text-amber-300 block font-semibold">Parallélogramme (Attention à l'ordre !) :</strong>
+              <div class="text-slate-700 dark:text-slate-200">$$\vec{AB} = \vec{DC} \iff ABDC \text{ est un parallélogramme}$$</div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/50 text-xs text-slate-500">
+            Opposé : $-\vec{AB} = \vec{BA}$ et $\vec{AB} + \vec{BA} = \vec{0}$.
+          </div>
+        </div>
+
+        <!-- Card 2: Somme & Chasles -->
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200/80 dark:border-slate-700/80 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Section 2</span>
+              <span class="p-1.5 bg-indigo-50 dark:bg-indigo-900/40 rounded-lg text-indigo-600 dark:text-indigo-300"><i data-lucide="git-merge" class="w-4 h-4"></i></span>
+            </div>
+            <h3 class="text-lg font-bold">Relation de Chasles</h3>
+            <div class="p-3 bg-indigo-50/60 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/60 rounded-xl text-center">
+              <span class="text-xs text-indigo-700 dark:text-indigo-300 font-semibold block mb-1">Origine = Extrémité</span>
+              <div class="text-sm font-semibold">$$\vec{AB} + \vec{BC} = \vec{AC}$$</div>
+            </div>
+            <div class="space-y-2 text-xs text-slate-700 dark:text-slate-300">
+              <p><strong>Pivot $A$ :</strong> $\vec{MN} = \vec{MA} + \vec{AN} = \vec{AN} - \vec{AM}$</p>
+              <p><strong>Milieu $I$ de $[AB]$ :</strong> $\vec{IA} + \vec{IB} = \vec{0} \iff \vec{AB} = 2\vec{AI}$</p>
+              <div class="p-2.5 bg-slate-100 dark:bg-slate-700/60 rounded-lg font-mono text-center text-xs">
+                $\vec{MA} + \vec{MB} = 2\vec{MI}$ (Médiane)
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/50 text-xs text-slate-500">
+            Règle de même origine : $\vec{AB} + \vec{AC} = \vec{AD}$ ($ABDC$ parallélogramme).
+          </div>
+        </div>
+
+        <!-- Card 3: Colinéarité & Alignement -->
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200/80 dark:border-slate-700/80 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Section 3</span>
+              <span class="p-1.5 bg-emerald-50 dark:bg-emerald-900/40 rounded-lg text-emerald-600 dark:text-emerald-300"><i data-lucide="git-commit" class="w-4 h-4"></i></span>
+            </div>
+            <h3 class="text-lg font-bold">Colinéarité & Géométrie</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300">
+              Deux vecteurs $\vec{u}$ et $\vec{v}$ sont colinéaires s'ils partagent la même direction :
+            </p>
+            <div class="text-xs bg-emerald-50/70 dark:bg-emerald-950/40 p-3 rounded-xl border border-emerald-100 dark:border-emerald-900 text-center font-medium">
+              $$\exists k \in \mathbb{R},\quad \vec{v} = k\vec{u}$$
+            </div>
+            <div class="space-y-2 text-xs">
+              <div class="p-2 bg-slate-50 dark:bg-slate-900/50 rounded-lg border border-slate-200 dark:border-slate-700">
+                <span class="font-semibold text-emerald-600 dark:text-emerald-400 block mb-0.5">Points alignés :</span>
+                $A, B, C$ alignés $\iff \vec{AB}$ et $\vec{AC}$ colinéaires.
+              </div>
+              <div class="p-2 bg-slate-50 dark:bg-slate-900/50 rounded-lg border border-slate-200 dark:border-slate-700">
+                <span class="font-semibold text-emerald-600 dark:text-emerald-400 block mb-0.5">Droites parallèles :</span>
+                $(AB) // (CD) \iff \vec{AB}$ et $\vec{CD}$ colinéaires.
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/50 text-xs text-slate-500">
+            $k > 0 \implies$ même sens ; $k < 0 \implies$ sens opposés.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4, 5, 6: Bases, Repères & Formulaire Analytique -->
+    <section id="tableau" class="space-y-6">
+      <div class="flex items-center justify-between border-b pb-3 border-slate-200 dark:border-slate-800">
+        <div class="flex items-center space-x-3">
+          <span class="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold text-sm">4-6</span>
+          <h2 class="text-2xl font-bold tracking-tight">Formulaire Analytique & Critères Clés</h2>
+        </div>
+        <span class="text-xs font-medium px-2.5 py-1 bg-slate-200 dark:bg-slate-800 rounded-md">Coordonnées & Norme</span>
+      </div>
+
+      <!-- Distinction Base vs Repère & Types de bases -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+        <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+          <div class="font-bold text-sm mb-1 text-slate-900 dark:text-white flex items-center gap-1.5">
+            <i data-lucide="layers" class="w-4 h-4 text-blue-500"></i> Base Quelconque
+          </div>
+          <p class="text-slate-600 dark:text-slate-300">Couple $(\vec{i}, \vec{j})$ de deux vecteurs <strong>non colinéaires</strong> sans condition d'orthogonalité ni de norme.</p>
+        </div>
+        <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+          <div class="font-bold text-sm mb-1 text-slate-900 dark:text-white flex items-center gap-1.5">
+            <i data-lucide="corner-down-right" class="w-4 h-4 text-indigo-500"></i> Base Orthogonale
+          </div>
+          <p class="text-slate-600 dark:text-slate-300">Directions perpendiculaires : $\vec{i} \perp \vec{j}$. Pas d'obligation sur les longueurs.</p>
+        </div>
+        <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 ring-2 ring-blue-500/20">
+          <div class="font-bold text-sm mb-1 text-slate-900 dark:text-white flex items-center gap-1.5">
+            <i data-lucide="sparkles" class="w-4 h-4 text-amber-500"></i> Base Orthonormée (B.O.N)
+          </div>
+          <p class="text-slate-600 dark:text-slate-300">Directions perpendiculaires <strong>ET</strong> longueurs unitaires : $\vec{i} \perp \vec{j}$ et $\|\vec{i}\| = \|\vec{j}\| = 1$.</p>
+        </div>
+      </div>
+
+      <!-- Table des formules -->
+      <div class="overflow-x-auto bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+          <thead>
+            <tr class="bg-slate-100/70 dark:bg-slate-700/50 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200">
+              <th class="py-3 px-4 font-semibold">Grandeur / Notion</th>
+              <th class="py-3 px-4 font-semibold">Expression / Formule Algébrique</th>
+              <th class="py-3 px-4 font-semibold">Condition Requise</th>
+              <th class="py-3 px-4 font-semibold">Remarque Clé</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
+            <tr class="hover:bg-slate-50 dark:hover:bg-slate-750/30">
+              <td class="py-3.5 px-4 font-medium text-slate-900 dark:text-white">Point $M(x; y)$</td>
+              <td class="py-3.5 px-4 font-mono">$\vec{OM} = x\vec{i} + y\vec{j}$</td>
+              <td class="py-3.5 px-4"><span class="px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 text-xs">Repère $(O, \vec{i}, \vec{j})$</span></td>
+              <td class="py-3.5 px-4 text-slate-500">Dépend du choix de l'origine $O$</td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-slate-750/30">
+              <td class="py-3.5 px-4 font-medium text-slate-900 dark:text-white">Vecteur $\vec{AB}$</td>
+              <td class="py-3.5 px-4 font-mono">$\vec{AB}\begin{pmatrix} x_B - x_A \\ y_B - y_A \end{pmatrix}$</td>
+              <td class="py-3.5 px-4"><span class="px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs">Base quelconque</span></td>
+              <td class="py-3.5 px-4 text-emerald-600 dark:text-emerald-400 font-medium">Indépendant de l'origine !</td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-slate-750/30">
+              <td class="py-3.5 px-4 font-medium text-slate-900 dark:text-white">Combinaison Linéaire</td>
+              <td class="py-3.5 px-4 font-mono">$\vec{u} + \vec{v}\begin{pmatrix}x+x'\\y+y'\end{pmatrix} \quad;\quad k\vec{u}\begin{pmatrix}kx\\ky\end{pmatrix}$</td>
+              <td class="py-3.5 px-4"><span class="px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 text-xs">Base quelconque</span></td>
+              <td class="py-3.5 px-4 text-slate-500">Addition terme à terme</td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-slate-750/30">
+              <td class="py-3.5 px-4 font-medium text-slate-900 dark:text-white">Milieu $I$ de $[AB]$</td>
+              <td class="py-3.5 px-4 font-mono">$x_I = \frac{x_A + x_B}{2} \quad;\quad y_I = \frac{y_A + y_B}{2}$</td>
+              <td class="py-3.5 px-4"><span class="px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 text-xs">Repère quelconque</span></td>
+              <td class="py-3.5 px-4 text-slate-500">Moyenne arithmétique des extrémités</td>
+            </tr>
+            <tr class="hover:bg-amber-50/50 dark:hover:bg-amber-950/20 bg-amber-50/20 dark:bg-amber-950/10">
+              <td class="py-3.5 px-4 font-semibold text-amber-800 dark:text-amber-300">Norme & Distance</td>
+              <td class="py-3.5 px-4 font-mono">
+                $\|\vec{u}\| = \sqrt{x^2 + y^2}$<br>
+                $AB = \sqrt{(x_B-x_A)^2 + (y_B-y_A)^2}$
+              </td>
+              <td class="py-3.5 px-4"><span class="px-2 py-1 rounded-md bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200 font-semibold text-xs border border-amber-300 dark:border-amber-700">R.O.N Obligatoire</span></td>
+              <td class="py-3.5 px-4 text-red-500 dark:text-red-400 font-medium">Faux en repère non orthonormé !</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Les Deux Critères Clés : Colinéarité vs Orthogonalité -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Critère Colinéarité -->
+        <div class="bg-gradient-to-br from-blue-500/10 via-white to-blue-500/5 dark:from-blue-950/40 dark:via-slate-850 dark:to-slate-900 p-6 rounded-2xl border-2 border-blue-500/30">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded">Base Quelconque</span>
+            <span class="text-xs font-mono text-slate-500">det(u, v)</span>
+          </div>
+          <h3 class="text-lg font-bold mb-2 flex items-center gap-2">
+            <i data-lucide="split" class="w-5 h-5 text-blue-600"></i> Critère de Colinéarité (Déterminant)
+          </h3>
+          <div class="my-4 text-center">
+            $$\det(\vec{u}, \vec{v}) = \begin{vmatrix} x & x' \\ y & y' \end{vmatrix} = x y' - x' y$$
+            <div class="mt-2 text-sm font-semibold text-blue-700 dark:text-blue-300">
+              $$\vec{u} \text{ et } \vec{v} \text{ colinéaires} \iff \det(\vec{u}, \vec{v}) = 0$$
+            </div>
+          </div>
+          <ul class="text-xs text-slate-600 dark:text-slate-300 space-y-1.5 list-disc list-inside">
+            <li><strong>Parallélisme :</strong> $(AB) // (CD) \iff \det(\vec{AB}, \vec{CD}) = 0$</li>
+            <li><strong>Alignement :</strong> $A, B, C$ alignés $\iff \det(\vec{AB}, \vec{AC}) = 0$</li>
+          </ul>
+        </div>
+
+        <!-- Critère Orthogonalité -->
+        <div class="bg-gradient-to-br from-indigo-500/10 via-white to-indigo-500/5 dark:from-indigo-950/40 dark:via-slate-850 dark:to-slate-900 p-6 rounded-2xl border-2 border-indigo-500/30">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold px-2 py-1 bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200 rounded">R.O.N Obligatoire</span>
+            <span class="text-xs font-mono text-slate-500">u ⊥ v</span>
+          </div>
+          <h3 class="text-lg font-bold mb-2 flex items-center gap-2">
+            <i data-lucide="axis-3d" class="w-5 h-5 text-indigo-600"></i> Critère d'Orthogonalité
+          </h3>
+          <div class="my-4 text-center">
+            $$\vec{u}\begin{pmatrix}x\\y\end{pmatrix} \perp \vec{v}\begin{pmatrix}x'\\y'\end{pmatrix} \iff x \cdot x' + y \cdot y' = 0$$
+          </div>
+          <ul class="text-xs text-slate-600 dark:text-slate-300 space-y-1.5 list-disc list-inside">
+            <li><strong>Perpendicularité :</strong> $(AB) \perp (CD) \iff x_{AB}x_{CD} + y_{AB}y_{CD} = 0$</li>
+            <li><strong>Triangle rectangle en $A$ :</strong> $\vec{AB} \perp \vec{AC} \iff x_{AB}x_{AC} + y_{AB}y_{AC} = 0$</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION INTERACTIVE : CALCULATEUR VECTORIEL & VISUALISATEUR -->
+    <section id="calculateur" class="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-700 shadow-xl space-y-6">
+      <div class="border-b border-slate-200 dark:border-slate-700 pb-4">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Atelier Pratique</span>
+            <h2 class="text-2xl font-bold">Simulateur & Analyseur Vectoriel</h2>
+          </div>
+          <button id="resetDemoBtn" class="text-xs px-3 py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 rounded-lg transition flex items-center gap-1">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Réinitialiser
+          </button>
+        </div>
+        <p class="text-xs sm:text-sm text-slate-500 mt-1">
+          Modifiez les composantes des vecteurs $\vec{u}$ et $\vec{v}$ pour observer en temps réel la colinéarité, l'orthogonalité et le tracé graphique.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- Controls & Input -->
+        <div class="lg:col-span-5 space-y-5">
+          <!-- Vecteur u -->
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-sm flex items-center gap-2 text-blue-600 dark:text-blue-400">
+                <span class="w-3 h-3 rounded-full bg-blue-600"></span> Vecteur $\vec{u}(x, y)$
+              </span>
+              <span id="u_norm_display" class="text-xs font-mono bg-blue-100 dark:bg-blue-900/60 px-2 py-0.5 rounded text-blue-700 dark:text-blue-300">\|\vec{u}\| = 5</span>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-xs text-slate-500 block mb-1">Abscisse $x$</label>
+                <input type="number" id="ux" value="3" step="0.5" class="w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-1.5 text-sm font-semibold focus:ring-2 focus:ring-blue-500 outline-none">
+              </div>
+              <div>
+                <label class="text-xs text-slate-500 block mb-1">Ordonnée $y$</label>
+                <input type="number" id="uy" value="2" step="0.5" class="w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-1.5 text-sm font-semibold focus:ring-2 focus:ring-blue-500 outline-none">
+              </div>
+            </div>
+          </div>
+
+          <!-- Vecteur v -->
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-sm flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
+                <span class="w-3 h-3 rounded-full bg-indigo-600"></span> Vecteur $\vec{v}(x', y')$
+              </span>
+              <span id="v_norm_display" class="text-xs font-mono bg-indigo-100 dark:bg-indigo-900/60 px-2 py-0.5 rounded text-indigo-700 dark:text-indigo-300">\|\vec{v}\| = 3.61</span>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-xs text-slate-500 block mb-1">Abscisse $x'$</label>
+                <input type="number" id="vx" value="-2" step="0.5" class="w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-1.5 text-sm font-semibold focus:ring-2 focus:ring-indigo-500 outline-none">
+              </div>
+              <div>
+                <label class="text-xs text-slate-500 block mb-1">Ordonnée $y'$</label>
+                <input type="number" id="vy" value="3" step="0.5" class="w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-1.5 text-sm font-semibold focus:ring-2 focus:ring-indigo-500 outline-none">
+              </div>
+            </div>
+          </div>
+
+          <!-- Action buttons for quick presets -->
+          <div class="flex flex-wrap gap-2 text-xs">
+            <span class="text-slate-500 py-1">Presets :</span>
+            <button onclick="setPreset(2, 4, 1, 2)" class="px-2.5 py-1 bg-slate-200 dark:bg-slate-700 hover:bg-blue-500 hover:text-white rounded-md transition">Colinéaires (k=2)</button>
+            <button onclick="setPreset(3, 2, -2, 3)" class="px-2.5 py-1 bg-slate-200 dark:bg-slate-700 hover:bg-indigo-500 hover:text-white rounded-md transition">Orthogonaux (90°)</button>
+            <button onclick="setPreset(4, 0, 0, 4)" class="px-2.5 py-1 bg-slate-200 dark:bg-slate-700 hover:bg-emerald-500 hover:text-white rounded-md transition">Base canonique ×4</button>
+          </div>
+
+          <!-- Real-Time Computed Diagnostic -->
+          <div class="p-4 rounded-xl bg-slate-100 dark:bg-slate-750 border border-slate-200 dark:border-slate-700 space-y-3">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500">Diagnostic Instantané</h4>
+            
+            <!-- Déterminant test -->
+            <div class="flex items-center justify-between text-xs pb-2 border-b border-slate-200 dark:border-slate-700">
+              <div>
+                <span class="font-semibold block">Déterminant $\det(\vec{u}, \vec{v})$ :</span>
+                <span id="det_calc" class="font-mono text-slate-500 text-[11px]">$3(3) - (2)(-2) = 13$</span>
+              </div>
+              <span id="colin_badge" class="px-2.5 py-1 rounded-full text-xs font-semibold">Non Colinéaires</span>
+            </div>
+
+            <!-- Orthogonalité test -->
+            <div class="flex items-center justify-between text-xs">
+              <div>
+                <span class="font-semibold block">Produit scalaire condition $x x' + y y'$ :</span>
+                <span id="ortho_calc" class="font-mono text-slate-500 text-[11px]">$3(-2) + 2(3) = 0$</span>
+              </div>
+              <span id="ortho_badge" class="px-2.5 py-1 rounded-full text-xs font-semibold">Orthogonaux</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Canvas Visualizer -->
+        <div class="lg:col-span-7 flex flex-col items-center">
+          <div class="w-full bg-slate-900 rounded-2xl p-3 border border-slate-800 shadow-inner flex flex-col items-center">
+            <div class="w-full flex items-center justify-between px-2 mb-2 text-xs text-slate-400">
+              <span class="flex items-center gap-1.5"><i data-lucide="grid" class="w-3.5 h-3.5"></i> Repère $(O, \vec{i}, \vec{j})$ orthonormé</span>
+              <span class="text-[11px]">Échelle : 1 graduation = 1 unité</span>
+            </div>
+            <canvas id="vectorCanvas" width="480" height="380" class="w-full max-w-[480px] h-[340px] rounded-lg bg-slate-950 border border-slate-800 cursor-crosshair"></canvas>
+            <div class="w-full flex justify-around mt-3 text-xs">
+              <span class="flex items-center gap-1.5 text-blue-400"><span class="w-2.5 h-2.5 bg-blue-500 rounded-sm"></span> Vecteur $\vec{u}$</span>
+              <span class="flex items-center gap-1.5 text-indigo-400"><span class="w-2.5 h-2.5 bg-indigo-500 rounded-sm"></span> Vecteur $\vec{v}$</span>
+              <span class="flex items-center gap-1.5 text-emerald-400"><span class="w-2.5 h-2.5 bg-emerald-500 rounded-sm"></span> Somme $\vec{u} + \vec{v}$</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: QUIZ FLASH & AUTO-ÉVALUATION -->
+    <section id="auto-eval" class="space-y-6">
+      <div class="flex items-center justify-between border-b pb-3 border-slate-200 dark:border-slate-800">
+        <div class="flex items-center space-x-3">
+          <span class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-sm">7</span>
+          <h2 class="text-2xl font-bold tracking-tight">Mini-Quiz d'Auto-Évaluation</h2>
+        </div>
+        <span class="text-xs font-medium px-2.5 py-1 bg-slate-200 dark:bg-slate-800 rounded-md">Vérification des Pièges</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="quiz-container">
+        <!-- Question 1 -->
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 space-y-4">
+          <div class="flex justify-between items-center text-xs text-slate-500">
+            <span class="font-bold text-blue-600 dark:text-blue-400">Question 1</span>
+            <span>Ordre des sommets</span>
+          </div>
+          <p class="text-sm font-semibold">Si $\vec{AB} = \vec{DC}$, quelle proposition est géométriquement vraie ?</p>
+          <div class="space-y-2 text-xs">
+            <button onclick="checkAnswer(this, false, 'Attention ! Pour avoir ABCD, il faudrait AB = CD. Ici AB = DC donc les côtés opposés sont [AB] et [CD].')" class="w-full text-left p-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 transition">$ABCD$ est un parallélogramme</button>
+            <button onclick="checkAnswer(this, true, 'Exact ! AB = DC implique que ABDC est un parallélogramme.')" class="w-full text-left p-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 transition">$ABDC$ est un parallélogramme</button>
+            <button onclick="checkAnswer(this, false, 'Faux. L\'égalité vectorielle n\'implique pas un polygone croisé.')" class="w-full text-left p-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 transition">$ACBD$ est un parallélogramme</button>
+          </div>
+          <div class="feedback-box hidden text-xs p-3 rounded-xl"></div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 space-y-4">
+          <div class="flex justify-between items-center text-xs text-slate-500">
+            <span class="font-bold text-blue-600 dark:text-blue-400">Question 2</span>
+            <span>Norme & Repère</span>
+          </div>
+          <p class="text-sm font-semibold">Peut-on utiliser la formule $\|\vec{u}\| = \sqrt{x^2+y^2}$ dans une base quelconque ?</p>
+          <div class="space-y-2 text-xs">
+            <button onclick="checkAnswer(this, false, 'Non ! Le théorème de Pythagore ne s\'applique que dans une base orthogonale avec des vecteurs de norme 1.')" class="w-full text-left p-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 transition">Oui, c'est vrai dans toute base cartésienne</button>
+            <button onclick="checkAnswer(this, true, 'Parfait ! Un Repère Orthonormé (R.O.N) est strictement obligatoire pour calculer la norme avec cette formule.')" class="w-full text-left p-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 transition">Non, elle nécessite impérativement une base orthonormée (B.O.N)</button>
+            <button onclick="checkAnswer(this, false, 'Non, la condition d\'orthogonalité seule ne suffit pas, les vecteurs doivent aussi être de norme 1.')" class="w-full text-left p-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 transition">Oui, dès que la base est orthogonale (sans condition de norme)</button>
+          </div>
+          <div class="feedback-box hidden text-xs p-3 rounded-xl"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-6 text-center text-xs text-slate-500 no-print">
+    <div class="max-w-7xl mx-auto px-4 space-y-1">
+      <p>Fiche de cours interactive créée pour les élèves de <strong>2ème Année Sciences</strong> — Lycée Tunisien.</p>
+      <p>D'après les synthèses de cours de mathématiques (Prof. Grichi Borhen).</p>
+    </div>
+  </footer>
+
+  <!-- Application Logic (Canvas + Reactive Calculations) -->
+  <script>
+    // Theme toggle management
+    const themeBtn = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      updateThemeIcon(isDark);
+      drawGridAndVectors();
+    }
+
+    function updateThemeIcon(isDark) {
+      if (isDark) {
+        themeIcon.setAttribute('data-lucide', 'sun');
+      } else {
+        themeIcon.setAttribute('data-lucide', 'moon');
+      }
+      lucide.createIcons();
+    }
+
+    if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+      updateThemeIcon(true);
+    } else {
+      updateThemeIcon(false);
+    }
+
+    themeBtn.addEventListener('click', toggleTheme);
+
+    // Inputs & Elements for Vector Engine
+    const uxIn = document.getElementById('ux');
+    const uyIn = document.getElementById('uy');
+    const vxIn = document.getElementById('vx');
+    const vyIn = document.getElementById('vy');
+
+    const uNormSpan = document.getElementById('u_norm_display');
+    const vNormSpan = document.getElementById('v_norm_display');
+    const detCalcSpan = document.getElementById('det_calc');
+    const colinBadge = document.getElementById('colin_badge');
+    const orthoCalcSpan = document.getElementById('ortho_calc');
+    const orthoBadge = document.getElementById('ortho_badge');
+
+    const canvas = document.getElementById('vectorCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function setPreset(ux, uy, vx, vy) {
+      uxIn.value = ux;
+      uyIn.value = uy;
+      vxIn.value = vx;
+      vyIn.value = vy;
+      updateCalculations();
+    }
+
+    document.getElementById('resetDemoBtn').addEventListener('click', () => setPreset(3, 2, -2, 3));
+
+    [uxIn, uyIn, vxIn, vyIn].forEach(input => {
+      input.addEventListener('input', updateCalculations);
+    });
+
+    function updateCalculations() {
+      const ux = parseFloat(uxIn.value) || 0;
+      const uy = parseFloat(uyIn.value) || 0;
+      const vx = parseFloat(vxIn.value) || 0;
+      const vy = parseFloat(vyIn.value) || 0;
+
+      // Norms
+      const normU = Math.sqrt(ux * ux + uy * uy).toFixed(2);
+      const normV = Math.sqrt(vx * vx + vy * vy).toFixed(2);
+      uNormSpan.textContent = `||u|| = ${normU}`;
+      vNormSpan.textContent = `||v|| = ${normV}`;
+
+      // Determinant: x*y' - x'*y
+      const det = (ux * vy - vx * uy);
+      const detFormatted = Number.isInteger(det) ? det : det.toFixed(2);
+      detCalcSpan.textContent = `(${ux})(${vy}) - (${uy})(${vx}) = ${detFormatted}`;
+
+      if (Math.abs(det) < 0.0001) {
+        colinBadge.textContent = 'Colinéaires (det = 0)';
+        colinBadge.className = 'px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-300';
+      } else {
+        colinBadge.textContent = 'Non Colinéaires';
+        colinBadge.className = 'px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-300';
+      }
+
+      // Orthogonality: x*x' + y*y'
+      const dot = (ux * vx + uy * vy);
+      const dotFormatted = Number.isInteger(dot) ? dot : dot.toFixed(2);
+      orthoCalcSpan.textContent = `(${ux})(${vx}) + (${uy})(${vy}) = ${dotFormatted}`;
+
+      if (Math.abs(dot) < 0.0001) {
+        orthoBadge.textContent = 'Orthogonaux (u ⊥ v)';
+        orthoBadge.className = 'px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-800 dark:bg-indigo-900/60 dark:text-indigo-300';
+      } else {
+        orthoBadge.textContent = 'Non Orthogonaux';
+        orthoBadge.className = 'px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-300';
+      }
+
+      drawGridAndVectors();
+    }
+
+    function drawGridAndVectors() {
+      const w = canvas.width;
+      const h = canvas.height;
+      const ox = w / 2;
+      const oy = h / 2;
+      const scale = 25; // 25 px per unit
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Grid background
+      ctx.strokeStyle = '#1e293b';
+      ctx.lineWidth = 1;
+      for (let x = ox % scale; x < w; x += scale) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, h);
+        ctx.stroke();
+      }
+      for (let y = oy % scale; y < h; y += scale) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+      }
+
+      // Main Axes
+      ctx.strokeStyle = '#475569';
+      ctx.lineWidth = 2;
+      // X axis
+      ctx.beginPath();
+      ctx.moveTo(0, oy);
+      ctx.lineTo(w, oy);
+      ctx.stroke();
+      // Y axis
+      ctx.beginPath();
+      ctx.moveTo(ox, 0);
+      ctx.lineTo(ox, h);
+      ctx.stroke();
+
+      // Origin text
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '10px monospace';
+      ctx.fillText('O', ox - 14, oy + 14);
+
+      const ux = parseFloat(uxIn.value) || 0;
+      const uy = parseFloat(uyIn.value) || 0;
+      const vx = parseFloat(vxIn.value) || 0;
+      const vy = parseFloat(vyIn.value) || 0;
+
+      // Draw vector sum u + v (emerald)
+      drawArrow(ox, oy, ox + (ux + vx) * scale, oy - (uy + vy) * scale, '#10b981', 1.5, true);
+
+      // Draw vector u (blue)
+      drawArrow(ox, oy, ox + ux * scale, oy - uy * scale, '#3b82f6', 3, false, 'u');
+
+      // Draw vector v (indigo)
+      drawArrow(ox, oy, ox + vx * scale, oy - vy * scale, '#818cf8', 3, false, 'v');
+    }
+
+    function drawArrow(fromx, fromy, tox, toy, color, lineWidth = 2, isDashed = false, label = '') {
+      const headlen = 10;
+      const dx = tox - fromx;
+      const dy = toy - fromy;
+      const angle = Math.atan2(dy, dx);
+
+      ctx.save();
+      ctx.strokeStyle = color;
+      ctx.fillStyle = color;
+      ctx.lineWidth = lineWidth;
+
+      if (isDashed) {
+        ctx.setLineDash([4, 4]);
+      } else {
+        ctx.setLineDash([]);
+      }
+
+      ctx.beginPath();
+      ctx.moveTo(fromx, fromy);
+      ctx.lineTo(tox, toy);
+      ctx.stroke();
+
+      // Arrowhead
+      ctx.setLineDash([]);
+      ctx.beginPath();
+      ctx.moveTo(tox, toy);
+      ctx.lineTo(tox - headlen * Math.cos(angle - Math.PI / 6), toy - headlen * Math.sin(angle - Math.PI / 6));
+      ctx.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6));
+      ctx.closePath();
+      ctx.fill();
+
+      // Optional vector label
+      if (label) {
+        ctx.font = 'bold 12px sans-serif';
+        ctx.fillText(label, tox + 6, toy - 6);
+      }
+
+      ctx.restore();
+    }
+
+    // Mini Quiz Handler
+    function checkAnswer(btn, isCorrect, explanation) {
+      const parent = btn.parentElement;
+      const feedback = parent.nextElementSibling;
+      const allButtons = parent.querySelectorAll('button');
+
+      allButtons.forEach(b => {
+        b.disabled = true;
+        b.classList.remove('hover:bg-slate-50', 'dark:hover:bg-slate-750');
+      });
+
+      if (isCorrect) {
+        btn.classList.add('bg-emerald-100', 'dark:bg-emerald-950/60', 'border-emerald-500', 'text-emerald-900', 'dark:text-emerald-200');
+        feedback.className = 'feedback-box text-xs p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300';
+      } else {
+        btn.classList.add('bg-rose-100', 'dark:bg-rose-950/60', 'border-rose-500', 'text-rose-900', 'dark:text-rose-200');
+        feedback.className = 'feedback-box text-xs p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-300';
+      }
+
+      feedback.innerHTML = `<strong>${isCorrect ? 'Bravo !' : 'Attention :'}</strong> ${explanation}`;
+      feedback.classList.remove('hidden');
+    }
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      updateCalculations();
+    });
+  </script>
+</body>
+</html>
